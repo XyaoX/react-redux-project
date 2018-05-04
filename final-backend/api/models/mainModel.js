@@ -4,8 +4,9 @@ PersonId = Schema.ObjectId;
 // Schema for task routes
 var PersonSchema = new Schema({
   personId: PersonId,
-  name: {type: String,required: 'Kindly enter the name of the task'},
-  age: Number,
+  firstName: {type: String},
+  lastName: {type: String},
+  password:String,
   email:String,
   Created_date: {type: Date,default: Date.now}
   });
