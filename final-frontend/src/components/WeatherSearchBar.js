@@ -30,7 +30,6 @@ class WeatherSearchBar extends Component {
         <Button bsStyle="primary" type="submit" >Submit</Button>
     </span>
     </form>
-    <p>{this.state.term}</p>
     </div>
     
         )

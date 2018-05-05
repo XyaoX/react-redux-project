@@ -8,3 +8,8 @@ body {
   font-weight: bold;
   color:red;
 }
+
+td, th {
+  vertical-align:middle!important;
+  text-align:center!important;
+}

@@ -10,5 +10,4 @@ export default (state = weatherInitialState,action)=> {
         default:
         return state;
     }
-    return state;
 }

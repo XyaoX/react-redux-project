@@ -5,7 +5,6 @@ import Yup from 'yup'
 import { Grid, Col, Row, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import {loginSuccessAction, loginFailAction} from './action/login';
 
 
