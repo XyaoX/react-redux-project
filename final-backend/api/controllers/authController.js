@@ -23,7 +23,6 @@ exports.auth_user = (req,res)=>{
 
 exports.login_user = (req,res)=>{
     Person.findOne({email:req.body.email}, function (err, user) {
-        console.log(user);
         if (err) return res.status(500).send('Error on the server.');
         if (!user) return res.status(404).send('No user found.');
         let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);

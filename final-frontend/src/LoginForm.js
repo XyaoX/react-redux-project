@@ -6,7 +6,8 @@ import { Grid, Col, Row, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {loginSuccessAction, loginFailAction} from './action/login';
-
+import setAuthorizationToken from './authHeader';
+import { withRouter } from 'react-router';
 
 const FormikBasic = ({
     values,
@@ -75,12 +76,16 @@ const FormikBasic = ({
                 .then(res => {
                     if(res.status===200){
                         props.dispatch(loginSuccessAction(res.data));
-                        resetForm()
+                        localStorage.setItem('user',res.data.token)
+                        setAuthorizationToken(res.data.token);
+                        // resetForm()
                     }
             })
                 .catch(err=> {
+                    console.log(err.response);
                     setErrors({email: err.response.data});
                     props.dispatch(loginFailAction());
+                    localStorage.clear();
                 })
             setSubmitting(false)
          },1000)
@@ -96,4 +101,4 @@ const FormikBasic = ({
 
 
 
- export default connect(mapStateToProps)(LoginForm);
+ export default withRouter(connect(mapStateToProps)(LoginForm));
