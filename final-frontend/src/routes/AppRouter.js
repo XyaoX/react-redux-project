@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link, NavLink, Redirect } from 
 import { App } from '../App';
 import LoginForm from '../LoginForm';
 import { connect } from 'react-redux';
-
+import Weather from '../containers/Weather';
 
 const Login = ()=>(
     <div>
@@ -25,6 +25,7 @@ const Header = () => (
         <h2>This is a header</h2>
         <NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink>
         <NavLink to="/Register" activeClassName="is-active">Register</NavLink>
+        <NavLink to="/Weather" activeClassName="is-active">Weather</NavLink>
     </div>
 )
 
@@ -61,6 +62,7 @@ const AppRouter = (props)=>(
         <PrivateRoute path="/" component={App} exact={true} auth={props.login.isAuthenticated} />
         <Route path="/Register" component={Login} />
         <Route path="/Children/:id" component={Children} />
+        <Route path="/Weather" component={Weather} />
         <Route path="" component={ErrorPage} />
         </Switch>
     </div>

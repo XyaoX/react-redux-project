@@ -1,9 +1,9 @@
 const loginInitialState = {
     person:{
-        username:'Eric',
+        username:'',
         token:''
     },
-    isAuthenticated:true
+    isAuthenticated:false
 };
 
 
@@ -11,6 +11,13 @@ const loginInitialState = {
 
 export default (state = loginInitialState,action)=> {
     switch(action.type){
+        case 'LOGIN_SUCCESS':
+            return {
+                person:{...action.person},
+                isAuthenticated:action.isAuthenticated
+            }
+        case 'LOGIN_FAIL':
+            return loginInitialState; 
         default:
         return state;
     }

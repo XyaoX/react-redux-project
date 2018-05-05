@@ -2,10 +2,11 @@
 import React from 'react'
 import { withFormik, Form, Field } from 'formik'
 import Yup from 'yup'
-import { Grid, Col, Row} from 'react-bootstrap';
+import { Grid, Col, Row, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+import { Redirect } from 'react-router-dom';
+import {loginSuccessAction, loginFailAction} from './action/login';
 
 
 const FormikBasic = ({
@@ -13,21 +14,18 @@ const FormikBasic = ({
     errors,
     touched,
     isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
     person
 }) => (
     <Grid>
     <Row className="show-grid">
     <Col md={5}>
-    <Form className="form" onSubmit={handleSubmit}>
+    <Form className="form">
         <Row>
         <Col md={8} mdOffset={4}>
         <label htmlFor="email">Email</label>
         </Col>
         <Col md={8} mdOffset={4}>
-        <input id="email" type="text" onChange={handleChange} onBlur={handleBlur} className={errors.email && touched.email ? ('error'):('text-input')}/>
+        <Field type="email" name="email"className={errors.email && touched.email ? ('error'):('text-input')}></Field>
         {touched.email && errors.email ?(<p style={{color:"red"}}>{errors.email}</p>):(<p></p>) }
         </Col>
         </Row>
@@ -36,7 +34,7 @@ const FormikBasic = ({
         <label>Password</label>
         </Col>
         <Col md={8} mdOffset={4}>
-        <input id="password" type="password" onChange={handleChange} onBlur={handleBlur} className={errors.password && touched.password ? ('error'):('text-input')}/>
+        <Field type="password" name="password" className={errors.password && touched.password ? ('error'):('text-input')}></Field>
          {touched.password && errors.password ? (<p style={{color:"red"}}>{errors.password}</p>):(<p style={{display:'block'}}></p>) }
          </Col>
          </Row>
@@ -48,7 +46,7 @@ const FormikBasic = ({
         </label>
         </Col>
         <Col md={4} mdOffset={4}>
-         <button type="submit" disabled={isSubmitting}>Submit</button>
+         <Button bsStyle="primary" type="submit" disabled={isSubmitting}>Submit</Button>
          </Col>
         </Row>
     </Form>
@@ -72,20 +70,19 @@ const FormikBasic = ({
         password:Yup.string().min(9,'Password must be more than 9 characters').required('Password field is required')
      }),
      handleSubmit (values, {resetForm, setErrors, setSubmitting,props}) {
+         let {email,password} = values;
          setTimeout(()=>{
-            axios.get(`http://localhost:3001/person`)
+            axios.post(`http://localhost:3001/auth`,{email,password})
                 .then(res => {
-                    if(res.data[0]){
-                        const { name } = res.data[0];
-                        console.log(props.person.username);
+                    if(res.status===200){
+                        props.dispatch(loginSuccessAction(res.data));
+                        resetForm()
                     }
             })
-
-            if(values.email==='andrew@test.io'){
-                setErrors({ email:'That email is already taken'})
-            }else {
-                resetForm()
-            }
+                .catch(err=> {
+                    setErrors({email: err.response.data});
+                    props.dispatch(loginFailAction());
+                })
             setSubmitting(false)
          },1000)
      }

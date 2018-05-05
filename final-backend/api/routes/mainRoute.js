@@ -5,9 +5,11 @@ module.exports = function(app){
     
     app.route('/person')
         .get(controller.list_all_person)
-        .post(controller.register_user);
+        .post(controller.register_user)
+        .delete(controller.delete_user);
 
     app.route('/auth')
-        .post(authController.auth_user);
+        .get(authController.auth_user)
+        .post(authController.login_user);
 
 }

@@ -6,8 +6,8 @@ var PersonSchema = new Schema({
   personId: PersonId,
   firstName: {type: String},
   lastName: {type: String},
-  password:String,
-  email:String,
+  password:{type:String, required:true},
+  email:{type:String, required:true,unique:true},
   Created_date: {type: Date,default: Date.now}
   });
 

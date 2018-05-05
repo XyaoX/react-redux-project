@@ -22,7 +22,8 @@ const mongoose = require('mongoose'),
     exports.register_user = (req,res)=>{
         let hashedPassword = bcrypt.hashSync(req.body.password,8);
         Person.create({
-            name: req.body.name,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             email:req.body.email,
             password:hashedPassword
         },
@@ -35,9 +36,12 @@ const mongoose = require('mongoose'),
                 expiresIn:86400
             });
             console.log(`token: ${token}`);
-            res.status(200).send({auth:true, token:token});
+            res.status(200).send({isAuthenticated:true, token:token});
         }
-    )
-        
+    )}
 
+    exports.delete_user = (req,res)=> {
+        Person.find({id:req.body.id}).remove((err)=>{
+            res.status(505).send('error delete the user')
+        })
     }
