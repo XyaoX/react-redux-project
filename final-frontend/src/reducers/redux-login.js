@@ -18,6 +18,17 @@ export default (state = loginInitialState,action)=> {
             }
         case 'LOGIN_FAIL':
             return loginInitialState; 
+        case 'AUTH_USER':
+        try{
+            if(action.payload.response.status === 500){return state;}
+        }
+        catch(e){
+            return {
+                person:{username:action.payload.data.username,token:action.payload.data.token},
+                isAuthenticated:action.payload.data.isAuthenticated
+            }
+        }
+        break;
         default:
         return state;
     }

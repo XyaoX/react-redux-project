@@ -12,4 +12,5 @@ module.exports = function(app){
         .get(authController.auth_user)
         .post(authController.login_user);
 
+
 }
